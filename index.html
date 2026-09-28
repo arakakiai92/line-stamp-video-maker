@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><title>LINEスタンプ告知動画メーカー</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="stylesheet" href="style.css"></head><body>
+<header>🎬 LINEスタンプ告知動画メーカー</header>
+<main>
+<div>
+ <section class="card"><h2><b>1</b>素材をアップロード</h2>
+  <div style="font-size:13px;color:var(--mu)">メイン画像（1枚）</div>
+  <label class="drop" id="dzMain"><input type="file" accept="image/png,image/jpeg" id="fMain">画像を追加（クリックまたはドラッグ＆ドロップ）</label>
+  <div class="thumbs" id="mainTh"></div>
+  <div style="font-size:13px;color:var(--mu);margin-top:12px">スタンプ画像（6〜20枚）／クリックで「おすすめに設定」／ドラッグまたは ◀▶ で並べ替え（1〜3番目=シーン2、4〜6番目=シーン3。おすすめ以外の順）</div>
+  <label class="drop" id="dzSt"><input type="file" accept="image/png,image/jpeg" multiple id="fSt">画像を追加（複数OK・ドラッグ＆ドロップ対応）</label>
+  <div class="thumbs" id="stTh"></div><div class="msg" id="stMsg"></div>
+ </section>
+ <section class="card"><h2><b>2</b>テキストを入力</h2>
+  <label class="f">タイトル</label><input type="text" id="tTitle" value="新作LINEスタンプ！">
+  <label class="f">サブタイトル</label><input type="text" id="tSub" value="毎日のLINEに使いやすい♪">
+  <label class="f">最後のメッセージ</label><input type="text" id="tEnd" value="LINE STOREで発売中">
+ </section>
+ <section class="card"><h2><b>3</b>背景を選ぶ</h2>
+  <div class="row g" id="modes">
+   <label><input type="radio" name="bm" value="color" checked> 背景色</label>
+   <label><input type="radio" name="bm" value="image"> 壁紙画像</label>
+   <label><input type="radio" name="bm" value="solid"> 画像なし／単色</label></div>
+  <div id="pColor" style="margin-top:10px"><div class="row"><input type="color" id="cp"><input type="text" id="hex" style="width:110px" maxlength="7" placeholder="#RRGGBB"></div>
+   <div class="row" id="chips" style="margin-top:8px"></div></div>
+  <div id="pImage" class="hide" style="margin-top:10px"><label class="drop" id="dzBg"><input type="file" accept="image/png,image/jpeg,image/webp" id="fBg">壁紙をアップロード（PNG / JPG / WebP）</label><div class="msg" id="bgName"></div></div>
+  <details id="adj" style="margin-top:10px"><summary style="cursor:pointer;font-size:14px">見やすさの調整（任意）</summary>
+   <label class="f">明るさ（左:暗く ／ 右:明るく）</label><input type="range" id="rB" min="-60" max="60" value="0">
+   <div id="imgAdj"><label class="f">壁紙を薄くする（透明度）</label><input type="range" id="rO" min="20" max="100" value="100">
+   <label class="f">壁紙のぼかし</label><input type="range" id="rBl" min="0" max="20" value="0"></div></details>
+  <div class="msg">前回選んだ背景色・調整は自動で引き継がれます（壁紙画像は毎回選び直し）。</div>
+  <div class="row" style="margin-top:6px"><button class="b s" id="reset">LINE風水色に戻す</button></div>
+ </section>
+</div>
+<div class="sticky">
+ <section class="card"><h2><b>4</b>プレビュー＆動画を作成</h2>
+  <label class="f">テンプレート</label>
+  <select id="tpl" style="width:100%;padding:8px;border-radius:8px;background:var(--bg);color:var(--tx);border:1px solid var(--bd);margin-bottom:10px"><option value="normal">通常テンプレート（15秒・縦型）</option></select>
+  <canvas id="cv" width="1080" height="1920"></canvas>
+  <input type="range" id="seek" min="0" max="15" step="0.05" value="0"><div class="msg" id="tm">0.0 / 15.0秒</div>
+  <div class="row" style="margin-top:8px"><button class="b s" id="bPrev">▶ プレビュー</button><button class="b" id="bMake">動画を作成</button></div>
+  <div class="msg" id="stat"></div>
+  <div id="result" class="hide"><video id="vid" controls playsinline></video><button class="b" id="bSave" style="width:100%">MP4を保存</button><div class="msg" id="fmtNote"></div></div>
+ </section>
+</div>
+</main>
+<script src="app.js"></script></body></html>
