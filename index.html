@@ -6,13 +6,23 @@
 <main>
 <div>
  <section class="card"><h2><b>1</b>素材をアップロード</h2>
-  <div style="font-size:13px;color:var(--mu)">メイン画像（1枚）</div>
-  <label class="drop" id="dzMain"><input type="file" accept="image/png,image/jpeg" id="fMain">画像を追加（クリックまたはドラッグ＆ドロップ）</label>
-  <div class="thumbs" id="mainTh"></div>
-  <div style="font-size:13px;color:var(--mu);margin-top:12px">スタンプ画像（6〜20枚）／☆またはクリックで「おすすめに設定」／ドラッグまたは ◀▶ で並べ替え（1〜3番目=シーン2、4〜6番目=シーン3。おすすめ以外の順）</div>
+  <div class="wt" id="wtGroup">
+   <b style="font-size:14px">作品タイプ</b>
+   <label><input type="radio" name="wt" value="normal" checked> 通常LINEスタンプ</label>
+   <label><input type="radio" name="wt" value="animStamp"> アニメーションスタンプ</label>
+   <label><input type="radio" name="wt" value="emoji"> LINE絵文字</label>
+   <label><input type="radio" name="wt" value="animEmoji"> アニメーション絵文字</label>
+   <div class="wtnote" id="tplName"></div>
+  </div>
+  <div id="mainBlock">
+   <div style="font-size:13px;color:var(--mu)">メイン画像（1枚）</div>
+   <label class="drop" id="dzMain"><input type="file" accept="image/png,image/jpeg" id="fMain">画像を追加（クリックまたはドラッグ＆ドロップ）</label>
+   <div class="thumbs" id="mainTh"></div>
+  </div>
+  <div style="font-size:13px;color:var(--mu);margin-top:12px" id="stHint"></div>
   <label class="drop" id="dzSt"><input type="file" accept="image/png,image/jpeg" multiple id="fSt">画像を追加（複数OK・ドラッグ＆ドロップ対応）</label>
   <div class="thumbs" id="stTh"></div><div class="msg" id="stMsg"></div>
-  <div class="rp"><div class="th" id="recTh"></div><div style="flex:1"><b>★ おすすめスタンプ（Scene 4で大きく表示）</b><div class="msg" id="recMsg"></div><label class="drop" id="dzRec" style="padding:6px 10px;margin-top:6px"><input type="file" accept="image/png,image/jpeg" id="fRec">別の画像を選んでおすすめにする</label></div></div>
+  <div class="rp"><div class="th" id="recTh"></div><div style="flex:1"><b id="recLabel"></b><div class="msg" id="recMsg"></div><label class="drop" id="dzRec" style="padding:6px 10px;margin-top:6px"><input type="file" accept="image/png,image/jpeg" id="fRec">別の画像を選んでおすすめにする</label></div></div>
  </section>
  <section class="card"><h2><b>2</b>テキストを入力</h2>
   <div id="txtFields"></div><div class="msg">サイズは動画（1080px幅）基準のpxです。改行はEnterキーで入れられます。最後の画面の2つの文言（発売中／検索案内）はテンプレート固定で、サイズと色だけ変更できます。「任意」の欄を空にすると動画にも表示されません。長い文は自動で折り返します。</div>
@@ -35,8 +45,6 @@
 </div>
 <div class="sticky">
  <section class="card"><h2><b>4</b>プレビュー＆動画を作成</h2>
-  <label class="f">テンプレート</label>
-  <select id="tpl" style="width:100%;padding:8px;border-radius:8px;background:var(--bg);color:var(--tx);border:1px solid var(--bd);margin-bottom:10px"><option value="normal">通常テンプレート（15秒・縦型）</option></select>
   <canvas id="cv" width="1080" height="1920"></canvas>
   <input type="range" id="seek" min="0" max="15" step="0.05" value="0"><div class="msg" id="tm">0.0 / 15.0秒</div>
   <div class="row" style="margin-top:8px"><button class="b s" id="bPrev">▶ プレビュー</button><button class="b" id="bMake">動画を作成</button></div>
