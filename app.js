@@ -6,8 +6,8 @@ const S={main:null,stamps:[],rec:null};
 const TYPES={
  normal:{label:'通常LINEスタンプ',noun:'スタンプ',accept:['image/png','image/jpeg','image/webp'],acceptNote:'PNG / JPG / WebP',hasMain:true,min:6,max:20,title:'新作LINEスタンプ！',tpl:'normal',soft:false},
  animStamp:{label:'アニメーションスタンプ',noun:'スタンプ',accept:['image/png','image/gif','image/webp'],acceptNote:'GIF / APNG(PNG) / アニメーションWebP',hasMain:true,min:6,max:20,title:'新作アニメーションスタンプ！',tpl:'normal',soft:true},
- emoji:{label:'LINE絵文字',noun:'絵文字',accept:['image/png','image/webp'],acceptNote:'PNG / WebP',hasMain:false,min:4,max:20,title:'新作LINE絵文字！',tpl:'grid',soft:false},
- animEmoji:{label:'アニメーション絵文字',noun:'絵文字',accept:['image/png','image/gif','image/webp'],acceptNote:'GIF / APNG(PNG) / アニメーションWebP',hasMain:false,min:4,max:20,title:'新作アニメーション絵文字！',tpl:'grid',soft:true}
+ emoji:{label:'LINE絵文字',noun:'絵文字',accept:['image/png','image/webp'],acceptNote:'PNG / WebP',hasMain:false,min:4,max:40,title:'新作LINE絵文字！',tpl:'grid',soft:false},
+ animEmoji:{label:'アニメーション絵文字',noun:'絵文字',accept:['image/png','image/gif','image/webp'],acceptNote:'GIF / APNG(PNG) / アニメーションWebP',hasMain:false,min:4,max:40,title:'新作アニメーション絵文字！',tpl:'grid',soft:true}
 };
 let CUR='normal',titleTouched=false;
 /* ===== 背景設定（テンプレートとは別管理）===== */
@@ -139,7 +139,7 @@ function mats(){const all=S.stamps.slice(),rec=S.rec||all[0]||null,gmain=S.main|
  const cyc=(a,i)=>a.length?a[i%a.length]:null,rep=[0,1,2].map(i=>cyc(repSrc,i)).filter(Boolean);
  const oth=all.filter(x=>x!==rec),pool=oth.length?oth:all,cy=(a,i)=>a.length?a[i%a.length]:null,take=(o,n=3)=>[...Array(n)].map((_,i)=>cy(pool,o+i)).filter(Boolean);
  const recPool=rec?[rec,...pool]:pool;
- const repTarget=Math.min(16,Math.floor(all.length/2));
+ const repTarget=Math.min(20,Math.floor(all.length/2));
  const rep2=pool.slice(0,Math.min(repTarget,pool.length));
  let rep3=pool.slice(rep2.length,rep2.length+repTarget);
  if(rep3.length<Math.min(repTarget,pool.length))rep3=rep3.concat(pool.slice(0,Math.min(repTarget,pool.length)-rep3.length));
