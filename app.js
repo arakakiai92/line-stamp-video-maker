@@ -105,12 +105,10 @@ function sceneCover(lt,m,T){const bp=d=>{const x=(lt-d)/.5;return x>0&&x<1?Math.
  m.rep.forEach((o,i)=>{const d=.5+i*.15;img(o,xs[i],1400+dy-sfA(m,bp(d))*14,bs,bs,1+.08*sfA(m,bp(d)),(i-(n-1)/2)*.05)});
  if(b2)drawBlk(b2,W/2,Math.min(1650-b2.h/2,1800-b2.h),1+.05*bp(1))}
 function sceneRec(lt,m){txt('おすすめ！',W/2,250,116,920,.8+.2*eob(lt/.5),cl(lt/.3));img(m.rec,W/2,1010+Math.sin(lt*3)*18*sfI(m,1),900,1000,(.6+.4*eob(lt/.6))*(1+.03*Math.sin(lt*3)*sfI(m,1)),Math.sin(lt*2.2)*.05*sfI(m,1))}
-function placeGrid(items,lt,top,bottom,stagger,m){const n=items.length;if(!n)return;const cols=n<=3?n:(n<=4?2:(n<=6?3:4)),rows=Math.ceil(n/cols),areaH=Math.max(1,bottom-top),rowH=areaH/rows,cellW=940/cols,size=Math.min(cellW,rowH)*.88;
- items.forEach((o,i)=>{const row=Math.floor(i/cols),col=i-row*cols,itemsInRow=Math.min(cols,n-row*cols),rowW=itemsInRow*cellW,x=W/2-rowW/2+cellW*(col+.5),y=top+rowH*(row+.5),d=stagger+i*.08;if(lt<d)return;const p=(lt-d)/.5;img(o,x,y,size,size,.6+sfA(m,.4)*eob(p),0,cl(p*2))})}
-/* 画面比率・余白を考慮し、n個を最も大きく収められる列数を総当たりで探す（9:16の表紙・最終カットで使用）*/
+/* 画面比率・余白を考慮し、n個を最も大きく収められる列数を総当たりで探す（9:16の表紙・Scene2/3・最終カットで使用）*/
 function bestGrid(n,aw,ah){let best=null;for(let cols=1;cols<=n;cols++){const rows=Math.ceil(n/cols),size=Math.min(aw/cols,ah/rows);if(!best||size>best.size)best={cols,rows,size}}return best}
-function layoutDense(items,top,bottom){const n=items.length;if(!n)return[];const aw=1000,ah=Math.max(40,bottom-top),g=bestGrid(n,aw,ah),cell=g.size*.94,totalH=g.rows*cell,startY=top+Math.max(0,(ah-totalH)/2);
- return items.map((o,i)=>{const row=Math.floor(i/g.cols),col=i-row*g.cols,itemsInRow=Math.min(g.cols,n-row*g.cols),rowW=itemsInRow*cell,x=W/2-rowW/2+cell*(col+.5),y=startY+cell*(row+.5);return{o,x,y,size:cell,i}})}
+function layoutDense(items,top,bottom){const n=items.length;if(!n)return[];const aw=1000,ah=Math.max(40,bottom-top),g=bestGrid(n,aw,ah),cellW=aw/g.cols,cellH=ah/g.rows,size=g.size*.94;
+ return items.map((o,i)=>{const row=Math.floor(i/g.cols),col=i-row*g.cols,itemsInRow=Math.min(g.cols,n-row*g.cols),rowW=itemsInRow*cellW,x=W/2-rowW/2+cellW*(col+.5),y=top+cellH*(row+.5);return{o,x,y,size,i}})}
 function evenSample(arr,k){if(k>=arr.length)return arr.slice();if(k<=0)return[];const out=[];for(let i=0;i<k;i++)out.push(arr[Math.floor(i*arr.length/k)]);return out}
 function fitCount(n,aw,ah,minSize){if(!n)return 0;for(let k=n;k>=1;k--){if(bestGrid(k,aw,ah).size>=minSize)return k}return 1}
 /* Scene1（絵文字の表紙）：アップロード済み全素材を、画面に収まる最大サイズのグリッドで一覧表示 */
@@ -129,8 +127,8 @@ const TEMPLATES={
  ]},
  grid:{name:'絵文字',scenes:[
   {s:0,e:2,f:sceneCoverGrid},
-  {s:2,e:6,f:(lt,m)=>placeGrid(m.rep2,lt,340,1680,0,m)},
-  {s:6,e:9,f:(lt,m,T)=>{txt(T.sub.t,W/2,230,T.sub.z,920,.8+.2*eob(lt/.5),cl(lt/.3),T.sub.col);placeGrid(m.rep3,lt,420,1680,.1,m)}},
+  {s:2,e:6,f:(lt,m)=>{layoutDense(m.rep2,320,1700).forEach(({o,x,y,size,i})=>{const d=i*.05;if(lt<d)return;const p=(lt-d)/.5;img(o,x,y,size,size,.6+sfA(m,.4)*eob(p),0,cl(p*2))})}},
+  {s:6,e:9,f:(lt,m,T)=>{txt(T.sub.t,W/2,230,T.sub.z,920,.8+.2*eob(lt/.5),cl(lt/.3),T.sub.col);layoutDense(m.rep3,400,1700).forEach(({o,x,y,size,i})=>{const d=.1+i*.05;if(lt<d)return;const p=(lt-d)/.5;img(o,x,y,size,size,.6+sfA(m,.4)*eob(p),0,cl(p*2))})}},
   {s:9,e:12,f:sceneRec},
   {s:12,e:15,f:(lt,m)=>{layoutDense(m.gEnd,260,1300).forEach(({o,x,y,size,i})=>{const d=i*.05;if(lt<d)return;const p=(lt-d)/.5;img(o,x,y,size,size,.6+sfA(m,.4)*eob(p),0,cl(p*2))});endTexts(lt)}}
  ]}
@@ -141,10 +139,10 @@ function mats(){const all=S.stamps.slice(),rec=S.rec||all[0]||null,gmain=S.main|
  const cyc=(a,i)=>a.length?a[i%a.length]:null,rep=[0,1,2].map(i=>cyc(repSrc,i)).filter(Boolean);
  const oth=all.filter(x=>x!==rec),pool=oth.length?oth:all,cy=(a,i)=>a.length?a[i%a.length]:null,take=(o,n=3)=>[...Array(n)].map((_,i)=>cy(pool,o+i)).filter(Boolean);
  const recPool=rec?[rec,...pool]:pool;
- const repTarget=Math.min(8,pool.length);
- const rep2=pool.slice(0,repTarget);
+ const repTarget=Math.min(16,Math.floor(all.length/2));
+ const rep2=pool.slice(0,Math.min(repTarget,pool.length));
  let rep3=pool.slice(rep2.length,rep2.length+repTarget);
- if(rep3.length<repTarget)rep3=rep3.concat(pool.slice(0,repTarget-rep3.length));
+ if(rep3.length<Math.min(repTarget,pool.length))rep3=rep3.concat(pool.slice(0,Math.min(repTarget,pool.length)-rep3.length));
  const gEndN=fitCount(all.length,1000,1300-260,78),gEnd=evenSample(all,gEndN);
  return{main:gmain,rec,soft:!!TYPES[CUR].soft,rep,A:take(0,3),B:take(3,3),
   grid:[...Array(6)].map((_,i)=>cy(recPool,i)).filter(Boolean),
