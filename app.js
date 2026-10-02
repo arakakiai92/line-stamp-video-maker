@@ -127,7 +127,7 @@ const TEMPLATES={
  ]},
  grid:{name:'絵文字',scenes:[
   {s:0,e:2,f:sceneCoverGrid},
-  {s:2,e:6,f:(lt,m)=>{layoutDense(m.rep2,320,1700).forEach(({o,x,y,size,i})=>{const d=i*.05;if(lt<d)return;const p=(lt-d)/.5;img(o,x,y,size,size,.6+sfA(m,.4)*eob(p),0,cl(p*2))})}},
+  {s:2,e:6,f:(lt,m,T)=>{txt(T.sub.t,W/2,230,T.sub.z,920,.8+.2*eob(lt/.5),cl(lt/.3),T.sub.col);layoutDense(m.rep2,400,1700).forEach(({o,x,y,size,i})=>{const d=.1+i*.05;if(lt<d)return;const p=(lt-d)/.5;img(o,x,y,size,size,.6+sfA(m,.4)*eob(p),0,cl(p*2))})}},
   {s:6,e:9,f:(lt,m,T)=>{txt(T.sub.t,W/2,230,T.sub.z,920,.8+.2*eob(lt/.5),cl(lt/.3),T.sub.col);layoutDense(m.rep3,400,1700).forEach(({o,x,y,size,i})=>{const d=.1+i*.05;if(lt<d)return;const p=(lt-d)/.5;img(o,x,y,size,size,.6+sfA(m,.4)*eob(p),0,cl(p*2))})}},
   {s:9,e:12,f:sceneRec},
   {s:12,e:15,f:(lt,m)=>{layoutDense(m.gEnd,260,1300).forEach(({o,x,y,size,i})=>{const d=i*.05;if(lt<d)return;const p=(lt-d)/.5;img(o,x,y,size,size,.6+sfA(m,.4)*eob(p),0,cl(p*2))});endTexts(lt)}}
